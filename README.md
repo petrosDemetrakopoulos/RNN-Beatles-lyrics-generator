@@ -84,11 +84,11 @@ word_as_int = np.array([word2idx[c] for c in corpus_words])
 ```
 
 # The prediction process
-Our goal is to predict the next words that will follow in a sequence, given some starting words (a start sequence).
-In layman's terms, RNNs are able to maintain an internal state that depends on the elements (in our case elements = sequences of words) that the RNN has previously "seen".
-So, we train the RNN to take as an input a sequence of words and predict the output, which is the following word at each time step. As you can easily understand, if we run the model for many time steps we generate sequences of words!
+Our goal is to **predict the next words that will follow in a sequence, given some starting words** (a start sequence).
+In layman's terms, **RNNs are able to maintain an internal state that depends on the elements (in our case elements = sequences of words) that the RNN has previously "seen"**.
+So, we train the RNN to take as an input a sequence of words and predict the output, which is the following word at each time step. As you can easily understand, **if we run the model for many time steps we generate sequences of words!**
 
-In order to train it, we have to split our train dataset (aka corpus) in "batches" of sequences of words (as this is what we also want to predict). Then, we need to shuffle them, because we want to make the order with which the songs have been placed in the dataset indifferent for the RNN (and thus for the prediction it will do). If we do not shuffle them, RNN may learn the order of the songs in the corpus to and that may lead it to overfitting.
+In order to train it, we have to split our train dataset (aka corpus) in "batches" of sequences of words (as this is what we also want to predict). Then, we need to shuffle them, because we want to make the order with which the songs have been placed in the dataset indifferent for the RNN (and thus for the prediction it will do). If we do not shuffle them, RNN may learn the order of the songs in the corpus to and that **may lead it to overfitting**
 
 
 
