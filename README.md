@@ -82,3 +82,9 @@ word2idx = {u: i for i, u in enumerate(vocab)}
 idx2words = np.array(vocab)
 word_as_int = np.array([word2idx[c] for c in corpus_words])
 ```
+
+# The prediction process
+Our goal is to predict the next words that will follow in a sequence, given some starting words (a start sequence).
+In layman's terms, RNNs are able to maintain an internal state that depends on the elements (in our case elements = sequences of words) that the RNN has previously "seen".
+So, we train the RNN to take as an input a sequence of words and predict the output, which is the following word at each time step. As you can easily understand, if we run the model for many time steps we generate sequences of words!
+
