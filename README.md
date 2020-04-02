@@ -28,6 +28,7 @@ etc...
 
 etc...
 ```
+I have manually created the corpus with the lyrics I found in [this amazing site](http://toti.eu.com/beatles/)
 
 # Data preprocessing
 As almost every machine learning model, training data need a bit of preprocessing before they are ready to be used as a training input for our RNN. 
