@@ -35,7 +35,7 @@ We preprocess the initial corpus by doing the following tasks:
 
 * Convert all letters to lowercase
 * Remove blank lines
-* Remove special characters (such as ',','(',')','[',']' etc)
+* Remove special characters (such as ',' , '(' , ')' , '[' , ']' etc)
 
 The following function performs the preprocessing:
 ```python
@@ -70,4 +70,14 @@ map(str.strip, corpus_words) # trim words
 Now, it is time to find the unique words (aka vocabulary) from which our dataset is composed from.
 ```python
 vocab = sorted(set(corpus_words))
+```
+
+In order to train our model, we need to represent words with numbers. So we map a specific number to each unique word of our corpus and vice versa by creating the following lookup tables. Then we represent the whole corpus as a list of numbers.
+
+```python
+print('Corpus length (in words):', len(corpus_words))
+print('Unique words in corpus: {}'.format(len(vocab)))
+word2idx = {u: i for i, u in enumerate(vocab)}
+idx2words = np.array(vocab)
+word_as_int = np.array([word2idx[c] for c in corpus_words])
 ```
