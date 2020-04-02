@@ -5,7 +5,7 @@ import numpy as np
 import os
 import time
 
-stopChars = [',','(',')','.','-','[',']']
+stopChars = [',','(',')','.','-','[',']','"']
 # preprocessing the corpus by converting all letters to lowercase, 
 # replacing blank lines with blank string and removing special characters
 def preprocessText(text):

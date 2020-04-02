@@ -40,7 +40,7 @@ We preprocess the initial corpus by doing the following tasks:
 
 The following function performs the preprocessing:
 ```python
-stopChars = [',','(',')','.','-','[',']']
+stopChars = [',','(',')','.','-','[',']','"']
 # preprocessing the corpus by converting all letters to lowercase, 
 # replacing blank lines with blank string and removing special characters
 def preprocessText(text):
