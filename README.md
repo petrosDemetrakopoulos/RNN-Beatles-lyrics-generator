@@ -73,7 +73,7 @@ Now, it is time to find the unique words (aka vocabulary) from which our dataset
 vocab = sorted(set(corpus_words))
 ```
 
-In order to train our model, we need to represent words with numbers. So we map a specific number to each unique word of our corpus and vice versa by creating the following lookup tables. Then we represent the whole corpus as a list of numbers.
+In order to train our model, we need to represent words with numbers. So we map a specific number to each unique word of our corpus and vice versa by creating the following lookup tables. Then we represent the whole corpus as a list of numbers (`word_as_int`).
 
 ```python
 print('Corpus length (in words):', len(corpus_words))
