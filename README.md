@@ -132,7 +132,7 @@ dataset = sequencesOfWords.map(split_input_target) # dataset now contains a trai
 
 # Shuffling the batches
 
-As we mentioned earlier, before we feed our training batches in our RNN, we have to shuffle them to prevent the RNN frm learning the order of the songs in the corpus which may lead it to overfitting.
+As we mentioned earlier, before we feed our training batches in our RNN, we have to shuffle them to prevent the RNN from learning the order of the songs in the corpus which may lead it to overfitting.
 
 ```python
 BATCH_SIZE = 64 # each batch contains 64 sequences. Each sequence contains 10 words (seqLength)
@@ -213,7 +213,7 @@ checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
 
 Now it is time to execute training. 
 We explicitly set the number of epochs. 
-Ath this point I would like to remind you that an epoch is one forward pass and one backward pass of all the training examples.
+At this point I would like to remind you that an epoch is one forward pass and one backward pass of all the training examples.
 
 We choose to train for 20 epochs. Note that as you increase number of epochs, the training time will increase too.
 You should experiment with this number in order to fine tune the model. 
