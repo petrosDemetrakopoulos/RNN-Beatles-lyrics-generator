@@ -39,10 +39,7 @@ examples_per_epoch = len(corpus_words)//(seqLength + 1)
 # Create training examples / targets
 wordDataset = tf.data.Dataset.from_tensor_slices(word_as_int)
 
-sequencesOfWords = wordDataset.batch(seqLength + 1, drop_remainder=True) # generating batches of 15 words each
-
-# Length of the vocabulary in chars
-vocab_size = len(vocab)
+sequencesOfWords = wordDataset.batch(seqLength + 1, drop_remainder=True) # generating batches of 10 words each
 
 def split_input_target(chunk):
   input_text = chunk[:-1]
@@ -51,10 +48,14 @@ def split_input_target(chunk):
 
 dataset = sequencesOfWords.map(split_input_target)
 
-BATCH_SIZE = 64 # each batch contains 64 sequences. Each sequence contains 15 words (seqLength)
-BUFFER_SIZE = 10 # 10 batches will be shuggled and feed into the RNN in each training cycle
+BATCH_SIZE = 64 # each batch contains 64 sequences. Each sequence contains 10 words (seqLength)
+BUFFER_SIZE = 100 # Number of batches that will be processed concurrently
 
 dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
+
+# Length of the vocabulary in words
+vocab_size = len(vocab)
+
 # The embedding dimension
 embedding_dim = 256
 # Number of RNN units
@@ -92,7 +93,7 @@ EPOCHS = 20
 
 history = model.fit(dataset, epochs=EPOCHS, callbacks=[checkpoint_callback])
 tf.train.latest_checkpoint(checkpoint_dir)
-model = createModel(vocab_size, embedding_dim, rnn_units, batch_size=1)
+model = createModel(len(vocab), embedding_dim, rnn_units, batch_size=1)
 
 model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
 

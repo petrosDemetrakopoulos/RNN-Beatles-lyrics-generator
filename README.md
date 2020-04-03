@@ -99,7 +99,6 @@ Let's say our corpus contains the following verse:
 ```
 I read the news today oh boy
 About a lucky man who made the grade
-
 ```
 Now, if the seqLength is 14, the training sequence will be :
 ```
@@ -112,4 +111,34 @@ read the news today oh boy
 About a lucky man who made the grade.
 ```
 
+We do so with the following lines:
+
+```python
+# The maximum length sentence we want for a single input in words
+seqLength = 10
+examples_per_epoch = len(corpus_words)//(seqLength + 1) # number of seqLength+1 sequences in the corpus
+
+# Create training / targets batches
+wordDataset = tf.data.Dataset.from_tensor_slices(word_as_int)
+sequencesOfWords = wordDataset.batch(seqLength + 1, drop_remainder=True) # generating batches of 10 words each, typically converting list of words (sequence) to string
+
+def split_input_target(chunk): # This is where right shift happens
+  input_text = chunk[:-1]
+  target_text = chunk[1:]
+  return input_text, target_text # returns training and target sequence for each batch
+
+dataset = sequencesOfWords.map(split_input_target) # dataset now contains a training and a target sequence for each 10 word slice of the corpus
+```
+
+# Shuffling the batches
+
+As we mentioned earlier, before we feed our training batches in our RNN, we have to shuffle them to prevent the RNN frm learning the order of the songs in the corpus which may lead it to overfitting.
+
+```python
+BATCH_SIZE = 64 # each batch contains 64 sequences. Each sequence contains 10 words (seqLength)
+BUFFER_SIZE = 100 # Number of batches that will be processed concurrently
+
+dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
+```
+`dataset` now contains batches of 64 word sequence each, each sequence is filled in the previous step with 10 words.
 
