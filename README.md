@@ -145,5 +145,43 @@ dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
 # The model
 Our RNN is composed from 3 layers:
 
-1) 
+1. Input layer. It maps the number representin each word to a vector with known dimensions (that are explicitly set)
+2. GRU (middle) layer: GRU stands for Gated Recurrent Units. The number of units that this layer contains is also explicitly set. This layer could also be replaced by a Long Short-Term Memory (LSTM) layer. More on LSTMs and GRUs in [this useful link](https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21)
+3. Output layer: It has as many units as the size of the vocabulary
+
+The model definition code:
+```python
+# Length of the vocabulary in words
+vocab_size = len(vocab)
+# The embedding dimension
+embedding_dim = 256
+# Number of GRU units
+rnn_units = 1024
+
+def createModel(vocab_size, embedding_dim, rnn_units, batch_size):
+  model = tf.keras.Sequential([
+    tf.keras.layers.Embedding(vocab_size, embedding_dim,
+                              batch_input_shape=[batch_size, None]),
+    tf.keras.layers.GRU(rnn_units,
+                        return_sequences=True,
+                        stateful=True,
+                        recurrent_initializer='glorot_uniform'),
+    tf.keras.layers.Dense(vocab_size)
+  ])
+ return model
+
+model = createModel(vocab_size = len(vocab), embedding_dim=embedding_dim, rnn_units=rnn_units, batch_size=BATCH_SIZE)
+```
+
+# How the RNN works
+
+For each word in the input layer, the model passes its embedding to the GRU layer for one step of time. 
+The output of the GRU is then passed to the dense layer wchich predicts the log-likelihood of the next word.
+The schematic below is a bit more descriptive.
+
+[RNN Schematic](./schematic.png)
+
+
+
+
 

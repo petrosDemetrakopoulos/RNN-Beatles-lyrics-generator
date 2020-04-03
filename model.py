@@ -55,10 +55,9 @@ dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
 
 # Length of the vocabulary in words
 vocab_size = len(vocab)
-
 # The embedding dimension
 embedding_dim = 256
-# Number of RNN units
+# Number of GRU units
 rnn_units = 1024
 
 def createModel(vocab_size, embedding_dim, rnn_units, batch_size):
@@ -136,7 +135,7 @@ print("Example:")
 print(generateLyrics(model, startString=u"love", temp=0.6))
 while (True):
   print('Enter start string:')
-  input_str = input()
+  input_str = input().lower()
   print('Enter temperature:')
   temperature = float(input())
   print(generateLyrics(model, startString=input_str, temp=temperature))
