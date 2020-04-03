@@ -240,5 +240,82 @@ model.summary()
 
 # Generating the lyrics
 
+RNNs (as most of Neural network types in general) need an initial state to start predicting.
+In our case, this initialization is represented by a starting string with which we want the generated lyrics to start.
+The model generates the probability distribution of the next word using the start string and the RNN state.
 
+Then, with the help of categorical distribution, the index of the predicted word is calculated **and the predicted word is used as the input for the next time step of the model**
 
+The state that the RNN returns is then fed back to the input of the RNN, in order to help it by providing more context (not just one word). This process continues as it generates predictions and this is why it learns better while it gets more context from the predicted words.
+
+The following function performs the task mentioned above:
+
+```python
+def generateLyrics(model, startString, temp):
+  print("---- Generating lyrics starting with '" + startString + "' ----")
+  # Number of words to generate
+  num_generate = 30
+
+  # Converting our start string to numbers (vectorizing)
+  start_string_list =  [w for w in startString.split(' ')]
+  input_eval = [word2idx[s] for s in start_string_list]
+  input_eval = tf.expand_dims(input_eval, 0)
+
+  text_generated = []
+
+  model.reset_states()
+  for i in range(num_generate):
+      predictions = model(input_eval)
+      # remove the batch dimension
+      predictions = tf.squeeze(predictions, 0)
+
+      # temp represent how 'conservative' the predictions are. 
+      # Lower temp leads to more predictable (or correct) lyrics
+      predictions = predictions / temp 
+      predicted_id = tf.random.categorical(predictions, num_samples=1)[-1,0].numpy()
+
+      # We pass the predicted word as the next input to the model
+      # along with the previous hidden state
+      input_eval = tf.expand_dims([predicted_id], 0)
+      text_generated.append(' ' + idx2words[predicted_id])
+
+  return (startString + ''.join(text_generated))
+```
+
+As you can see, many factors may influence the accuracy of the predictions.
+`temp` parameter for example represent how 'conservative' the predictions are. 
+This means that lower temp values lead to more predictable (or correct) lyrics.
+
+# Running the model
+model.py also contains a "demo part". 
+After training process is finished, it saves the model in a binary file (you can then restore it in one line of code and us it instantly to predict values) for future use so we do not have to train it every time we want to generate lyrics.
+
+```python
+#save trained model for future use (so we do not have to train it every time we want to generate text)
+model.save('saved_model.h5')
+```
+
+Then it calls the `generateLyrics` function with the start string "love" (We all know how much Beatles used) this word in their songs.
+
+Then it propmpts the user to enter a start string and a temp value to generate lyrics.
+
+Some examples that the model gave me:
+````
+Start string: "love"
+Generated lyrics: "love youyouyouyou as i write this letter send my love to give you all my loving i will send to you all my loving i will send to you don't bother"
+
+Start string: "boys and girls"
+temp: 0.4
+Generated lyrics: "boys and girls make me sing and shout that georgia's always be blind love is here to stay and that's enough to make you my girl be the only one love me hold"
+
+Start string: "day"
+temp: 0.8
+Generated lyrics: "day tripper night at my own it will take a walk on home loretta get back get back get back get back get back get back get back get back get"
+````
+Hm... Not that bad.
+
+# Optimizing the model
+You can easily fine tune the model by changing the variables that influence the accuracy of the predictions.
+`BATCH_SIZE`, `temp`, embedding dimensions, sequence length can all influence the prediction and thus the genrated lyrics.
+You can also try to use LSTM units in the middle layer.
+So you can experiment yourself and comment with the results.

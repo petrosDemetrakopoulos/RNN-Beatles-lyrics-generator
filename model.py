@@ -100,8 +100,8 @@ model.build(tf.TensorShape([1, None]))
 model.summary()
 
 def generateLyrics(model, startString, temp):
-  # Number of words to generate
   print("---- Generating lyrics starting with '" + startString + "' ----")
+  # Number of words to generate
   num_generate = 30
 
   # Converting our start string to numbers (vectorizing)
@@ -136,6 +136,6 @@ print(generateLyrics(model, startString=u"love", temp=0.6))
 while (True):
   print('Enter start string:')
   input_str = input().lower()
-  print('Enter temperature:')
-  temperature = float(input())
-  print(generateLyrics(model, startString=input_str, temp=temperature))
+  print('Enter temp:')
+  temp = float(input())
+  print(generateLyrics(model, startString=input_str, temp=temp))
