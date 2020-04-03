@@ -142,3 +142,8 @@ dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
 ```
 `dataset` now contains batches of 64 word sequence each, each sequence is filled in the previous step with 10 words.
 
+# The model
+Our RNN is composed from 3 layers:
+
+1) 
+
