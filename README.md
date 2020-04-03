@@ -180,7 +180,7 @@ The output of the GRU is then passed to the dense layer which predicts the log-l
 
 The schematic below is a bit more descriptive.
 
-[RNN Schematic](https://raw.githubusercontent.com/petrosDemetrakopoulos/RNN-Beatles-lyrics-generator/master/schematic.png)
+![RNN Schematic](https://raw.githubusercontent.com/petrosDemetrakopoulos/RNN-Beatles-lyrics-generator/master/schematic.png)
 
 # Training the model
 
