@@ -282,10 +282,6 @@ def generateLyrics(model, startString, temp):
   return (startString + ''.join(text_generated))
 ```
 
-As you can see, many factors may influence the accuracy of the predictions.
-`temp` parameter for example represent how 'conservative' the predictions are. 
-This means that lower temp values lead to more predictable (or correct) lyrics.
-
 # Running the model
 model.py also contains a "demo part". 
 After training process is finished, it saves the model in a binary file (you can then restore it in one line of code and us it instantly to predict values) for future use so we do not have to train it every time we want to generate lyrics.
@@ -314,8 +310,3 @@ Generated lyrics: "day tripper night at my own it will take a walk on home loret
 ````
 Hm... Not that bad.
 
-# Optimizing the model
-You can easily fine tune the model by changing the variables that influence the accuracy of the predictions.
-`BATCH_SIZE`, `temp`, embedding dimensions, sequence length can all influence the prediction and thus the genrated lyrics.
-You can also try to use LSTM units in the middle layer.
-So you can experiment yourself and comment with the results.
