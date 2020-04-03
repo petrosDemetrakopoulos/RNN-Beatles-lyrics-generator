@@ -68,7 +68,7 @@ Then, we trim each word for leading or trailing spaces / tabs.
 map(str.strip, corpus_words) # trim words
 ```
 
-Now, it is time to find the unique words (aka vocabulary) from which our dataset is composed from.
+Now, it is time to find the unique words (aka vocabulary) from which our dataset is composed of.
 ```python
 vocab = sorted(set(corpus_words))
 ```
@@ -143,7 +143,7 @@ dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
 `dataset` now contains batches of 64 word sequence each, each sequence is filled in the previous step with 10 words.
 
 # The model
-Our RNN is composed from 3 layers:
+Our RNN is composed of 3 layers:
 
 1. Input layer. It maps the number representin each word to a vector with known dimensions (that are explicitly set)
 2. GRU (middle) layer: GRU stands for Gated Recurrent Units. The number of units that this layer contains is also explicitly set. This layer could also be replaced by a Long Short-Term Memory (LSTM) layer. More on LSTMs and GRUs in [this useful link](https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21)
