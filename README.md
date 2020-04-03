@@ -176,12 +176,69 @@ model = createModel(vocab_size = len(vocab), embedding_dim=embedding_dim, rnn_un
 # How the RNN works
 
 For each word in the input layer, the model passes its embedding to the GRU layer for one step of time. 
-The output of the GRU is then passed to the dense layer wchich predicts the log-likelihood of the next word.
+The output of the GRU is then passed to the dense layer which predicts the log-likelihood of the next word.
+
 The schematic below is a bit more descriptive.
 
-[RNN Schematic](./schematic.png)
+[RNN Schematic](https://raw.githubusercontent.com/petrosDemetrakopoulos/RNN-Beatles-lyrics-generator/master/schematic.png)
 
+# Training the model
 
+From now on, we can consider the problem as a simple classification problem.
+If you think about it, our model predicts the "class" of the next word based on its current state and the input words during a time step.
+
+So, as in every classification model, in order to train it we need to calculate the loss in each time step.
+
+We do so by defining the following function:
+
+```python
+def loss(labels, logits):
+  return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
+```
+Then we compile the model using 'adam' oprimizer.
+
+```python
+model.compile(optimizer='adam', loss=loss)
+```
+
+During the training process, we should save checkpoints of the training in a directory that we have manually created
+```python
+checkpoint_dir = './training_checkpoints'
+checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
+
+checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
+    filepath=checkpoint_prefix,
+    save_weights_only=True)
+```
+
+Now it is time to execute training. 
+We explicitly set the number of epochs. 
+Ath this point I would like to remind you that an epoch is one forward pass and one backward pass of all the training examples.
+
+We choose to train for 20 epochs. Note that as you increase number of epochs, the training time will increase too.
+You should experiment with this number in order to fine tune the model. 
+But be careful, training for too many epochs may lead to overfitting.
+
+```python
+
+EPOCHS = 20
+history = model.fit(dataset, epochs=EPOCHS, callbacks=[checkpoint_callback])
+```
+
+After the training process is over, we restore the trained model form the latest checkpoint. 
+It is time to generate the lyrics!
+
+```python
+tf.train.latest_checkpoint(checkpoint_dir)
+model = createModel(len(vocab), embedding_dim, rnn_units, batch_size=1)
+
+model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
+
+model.build(tf.TensorShape([1, None]))
+model.summary()
+```
+
+# Generating the lyrics
 
 
 
