@@ -90,5 +90,26 @@ So, we train the RNN to take as an input a sequence of words and predict the out
 
 In order to train it, we have to split our train dataset (aka corpus) in "batches" of sequences of words (as this is what we also want to predict). Then, we need to shuffle them, because we want to make the order with which the songs have been placed in the dataset indifferent for the RNN (and thus for the prediction it will do). If we do not shuffle them, RNN may learn the order of the songs in the corpus to and that **may lead it to overfitting**
 
+# Creating training batches
+Now it is time to slice the corpus into training batches. Each batch should contain `seqLength` words from the corpus.
+For each splited sequence of words, there is also a **target sequence** which has the same length with the training one and it is the same but one word shifted to the right. So, we slice the text into `seqLength+1` words slices and we use the first `seqLength` words as training sequence and we extract the target sequence as mentioned.
+
+Example:
+Let's say our corpus contains the following verse:
+```
+I read the news today oh boy
+About a lucky man who made the grade
+
+```
+Now, if the seqLength is 14, the training sequence will be :
+```
+I read the news today oh boy
+About a lucky man who made the
+```
+and the target sequence will be:
+```
+read the news today oh boy
+About a lucky man who made the grade.
+```
 
 
