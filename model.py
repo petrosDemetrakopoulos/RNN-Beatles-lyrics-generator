@@ -12,7 +12,7 @@ def preprocessText(text):
   text = text.replace('\n', ' ').replace('\t','')
   processedText = text.lower()
   for char in stopChars:
-    processedText = processedText.replace(char,'')
+    processedText = processedText.replace(char,' ')
   return processedText
 
 def corpusToList(corpus):
@@ -135,7 +135,7 @@ print("Example:")
 print(generateLyrics(model, startString=u"love", temp=0.6))
 while (True):
   print('Enter start string:')
-  input_str = input().lower()
+  input_str = input().lower().strip()
   print('Enter temp:')
   temp = float(input())
   print(generateLyrics(model, startString=input_str, temp=temp))
